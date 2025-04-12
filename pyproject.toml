@@ -1,22 +1,14 @@
 [tool.poetry]
-name = "csdocgen"
+name = "xml-doc-filler"
 version = "0.1.0"
-description = "Generate XML documentation for C# classes using offline AI model"
-authors = ["Maciek <maciek@example.com>"]
+description = "Narzędzie do automatycznego uzupełniania tagów <Description> w plikach XML z dokumentacją C# przy użyciu lokalnego modelu LLM"
+authors = ["Twoje Imię <email@example.com>"]
+readme = "README.md"
+packages = [{ include = "xml_doc_filler" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-torch = {version = "^2.2.1+cpu", source = "pytorch_cpu"}
-transformers = "^4.40.0"
-click = "^8.1.7"
-
-[[tool.poetry.source]]
-name = "pytorch_cpu"
-url = "https://download.pytorch.org/whl/cpu"
-priority = "explicit"
-
-[tool.poetry.scripts]
-csdocgen = "csdocgen.main:main"
+llama-cpp-python = "^0.2.24"
 
 [build-system]
 requires = ["poetry-core"]
