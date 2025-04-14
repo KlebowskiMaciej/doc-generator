@@ -1,14 +1,21 @@
 [tool.poetry]
 name = "xml-doc-filler"
 version = "0.1.0"
-description = "Narzędzie do automatycznego uzupełniania tagów <Description> w plikach XML z dokumentacją C# przy użyciu lokalnego modelu LLM"
-authors = ["Twoje Imię <email@example.com>"]
+description = "Offline tool for auto-completing <Description> tags in C# XML documentation using local LLM (Phi-2)"
+authors = ["Maciej kłębowski <klebowskimaciej@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "xml_doc_filler" }]
+packages = [{ include = "src", from = "." }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-llama-cpp-python = "^0.2.24"
+transformers = "^4.39.3"
+accelerate = "^0.26.0"
+huggingface_hub = "^0.23.1"
+sentencepiece = "^0.1.99"
+protobuf = "^4.25.3"
+
+[tool.poetry.scripts]
+xml-doc-filler = "src.main:main"
 
 [build-system]
 requires = ["poetry-core"]

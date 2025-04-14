@@ -4,46 +4,43 @@ from prompts import PromptBuilder
 import os
 import sys
 import shutil
+import logging
 from pathlib import Path
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s] %(message)s"
+)
+logger = logging.getLogger("xml-doc-filler")
 
-def resolve_model_path():
-    model_dir = os.getenv("MODEL_DIR", "models/Mistral-7B-Instruct-v0.3")
-    if not os.path.isdir(model_dir):
-        raise FileNotFoundError(
-            f"Model not found in expected directory: {model_dir}\n"
-            f"To download, use:\n"
-            f"  huggingface-cli login\n"
-            f"  huggingface-cli download mistralai/Mistral-7B-Instruct-v0.3 --local-dir {model_dir} --local-dir-use-symlinks False"
-        )
-    return model_dir
-
+def get_default_model_id() -> str:
+    return "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python main.py <path_to_xml>")
+        logger.error("Usage: python main.py <path_to_xml>")
         sys.exit(1)
 
     input_path = sys.argv[1]
     if not os.path.isfile(input_path):
-        print(f"File does not exist: {input_path}")
+        logger.error(f"File does not exist: {input_path}")
         sys.exit(1)
 
-    model_path = resolve_model_path()
+    logger.info(f"Processing input XML: {input_path}")
 
-    # Inicjalizacja
-    model = LlamaModel(model_path=model_path)
+    model_path = get_default_model_id()
+    logger.info(f"Using model: {model_path}")
+
+    model = LlamaModel(model_path=model_path, logger=logger)
     prompt_builder = PromptBuilder()
-    updater = XMLDocUpdater(model=model, prompt_builder=prompt_builder)
+    updater = XMLDocUpdater(model=model, prompt_builder=prompt_builder, logger=logger)
 
-    # Przetwarzanie
     tmp_output_path = input_path + ".tmp"
+    logger.info("Generating updated XML file...")
     updater.process_file(input_path, tmp_output_path)
 
-    # Nadpisz oryginalny plik
     shutil.move(tmp_output_path, input_path)
-    print(f"Updated file: {input_path}")
-
+    logger.info(f"Successfully updated file: {input_path}")
 
 if __name__ == "__main__":
     main()
