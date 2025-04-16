@@ -1,0 +1,1 @@
+ERROR: Błąd Gemini API.

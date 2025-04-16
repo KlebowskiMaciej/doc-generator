@@ -1,22 +1,25 @@
 [tool.poetry]
-name = "xml-doc-filler"
+name = "doc-generator"
 version = "0.1.0"
-description = "Offline tool for auto-completing <Description> tags in C# XML documentation using local LLM (Phi-2)"
-authors = ["Maciej kłębowski <klebowskimaciej@gmail.com>"]
+description = "A Python-based tool for generating .NET XML documentation in C# code."
+authors = ["klebowski <klebowskimaciej@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-packages = [{ include = "src", from = "." }]
+
+packages = [
+  { include = "src" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-transformers = "^4.39.3"
-accelerate = "^0.26.0"
-huggingface_hub = "^0.23.1"
-sentencepiece = "^0.1.99"
-protobuf = "^4.25.3"
+torch = "^2.0.0"
+transformers = "^4.26.0"
+python-dotenv = "^1.0.0"
+google-generativeai = "^0.1.0"
 
 [tool.poetry.scripts]
-xml-doc-filler = "src.main:main"
+doc-generator = "src.cli:main"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
