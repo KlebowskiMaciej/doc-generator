@@ -41,6 +41,6 @@ class DocumentationInserter:
             lines.append(f"/// <param name=\"{pname}\">{pdesc}</param>")
         if returns_doc:
             lines.append(f"/// <returns>{returns_doc}</returns>")
-        lines.append("")  # pusta linia na końcu
+        lines.append("")
 
         return "\n".join(lines) + "\n"
